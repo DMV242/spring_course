@@ -2,12 +2,14 @@ package fr.epita.coffemachine.service;
 
 import fr.epita.coffemachine.dto.CoffeeDto;
 import fr.epita.coffemachine.dto.CreateCoffeeDto;
+import fr.epita.coffemachine.dto.UpdateCoffeeDto;
 import fr.epita.coffemachine.entity.Coffee;
 import fr.epita.coffemachine.mapper.CoffeeMapper;
 import fr.epita.coffemachine.repository.CoffeeRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +47,16 @@ public class CoffeeServiceImpl implements CoffeeService {
     public CoffeeDto create(CreateCoffeeDto dto) {
         return mapper.toDto(repository.save(mapper.toEntity(dto)));
     }
+
+    @Transactional
+    @Override
+    public Optional<CoffeeDto> update(UpdateCoffeeDto dto, Long id) {
+        return repository.findById(id).map( existing -> {
+          mapper.updateEntity(existing, dto);
+         return mapper.toDto(existing);
+        });
+    }
+
+
 
 }
