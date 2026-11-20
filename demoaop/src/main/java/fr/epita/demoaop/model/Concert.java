@@ -1,8 +1,13 @@
 package fr.epita.demoaop.model;
 
-public class PerformanceImpl implements Performance {
+
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class Concert implements Performance {
     @Override
     public void perform() {
-        IO.println("La la la la la la");
+        System.out.println("La la la la la la");
     }
 }
